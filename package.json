@@ -17,7 +17,7 @@
     "boilerplate",
     "raycast"
   ],
-  "author": "Your Name",
+  "author": "Daniel Snell @Umbral.ai",
   "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

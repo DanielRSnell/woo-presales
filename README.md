@@ -1,421 +1,313 @@
 # Shadow Plugin Boilerplate
 
-A minimal WordPress plugin boilerplate featuring React Shadow DOM architecture with the complete Raycast design system. Perfect starting point for building modern WordPress plugins with React.
+A modern WordPress plugin boilerplate featuring **React 18**, **Shadow DOM isolation**, and **REST API integration**. Built with production-ready architecture, modular components, and the beautiful **Raycast design system**.
 
-## ✨ Features
+https://github.com/user-attachments/assets/ae7c0d35-d6e6-4f83-9087-8c8d2c0ae0e0
 
-- 🎯 **React 18** with JSX and hooks
-- 🔒 **Shadow DOM** for complete style isolation
-- 🎨 **Complete Raycast Design System** included
-- ⚡ **Vite Build System** for fast development
-- 🔌 **WordPress REST API** integration ready
-- ⌨️ **Keyboard Shortcuts** support (Cmd/Ctrl + `)
-- 📱 **Responsive Design** 
+## ✨ Key Features
+
+- 🎯 **React 18** with modern hooks and components
+- 🔒 **Shadow DOM** for complete style isolation from WordPress themes
+- 🌐 **REST API Integration** with authenticated requests
+- 🎨 **Raycast Design System** with CSS variables and semantic tokens
+- ⚡ **Vite Build System** for lightning-fast development
+- 🧩 **Modular Architecture** with clean separation of concerns
+- ⌨️ **Keyboard Shortcuts** (`Cmd/Ctrl + K` to toggle)
 - 📦 **Web Components** using @r2wc/react-to-web-component
-- 🎭 **Framer Motion** animations
+- 🎭 **Framer Motion** animations and smooth transitions
+- 📱 **Responsive Design** that works on all devices
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- **WordPress 5.8+**
+- **Node.js 18+**
+- **Pretty Permalinks enabled** (see troubleshooting below)
+
+### Installation
+
 ```bash
-# 1. Copy the boilerplate
-cp -r shadow-plugin-boilerplate your-plugin-name
+# 1. Clone or copy the boilerplate
+git clone <repo-url> your-plugin-name
 cd your-plugin-name
 
 # 2. Install dependencies
 npm install
+# or
+pnpm install
 
 # 3. Build the plugin
 npm run build
 
-# 4. Activate in WordPress admin
+# 4. Activate in WordPress Admin → Plugins
 ```
 
-## 🏗️ What You Get
+### ⚠️ **Important: Enable Pretty Permalinks**
 
-### Minimal File Structure (Only 7 files!)
+**Before testing, you MUST enable pretty permalinks:**
+
+1. Go to **WordPress Admin → Settings → Permalinks**
+2. Select **"Post name"** or any option except "Plain"
+3. Click **"Save Changes"**
+
+*Why? WordPress REST API requires pretty permalinks to function.*
+
+### 🧪 Test the Plugin
+
+1. **Visit any WordPress admin page**
+2. **Press `Cmd/Ctrl + K`** to open the command palette
+3. **See real data** fetched from WordPress REST API
+4. **If you see JSON errors** → Check permalinks are enabled
+
+## 🏗️ Architecture Overview
+
+### Modern File Structure
 
 ```
-shadow-plugin-boilerplate/
-├── src/
-│   ├── main.jsx              # Entry point (web component setup)
-│   ├── ShadowApp.jsx         # Demo React app
-│   └── ShadowStyles.jsx      # Complete Raycast design system
-├── shadow-plugin.php         # WordPress plugin file
-├── style.css                 # WordPress plugin styles
-├── package.json              # Dependencies (only 4!)
-├── vite.config.js            # Build configuration
-├── README.md                 # This file
-└── INTEGRATION.md            # Quick integration examples
+shadow-plugin/
+├── src/                          # React source files
+│   ├── components/              # Modular React components
+│   │   ├── CommandPalette.jsx   # Main command interface
+│   │   ├── SearchInput.jsx      # Search with icon
+│   │   ├── CommandItem.jsx      # Individual list items
+│   │   └── TriggerButton.jsx    # Floating trigger
+│   ├── ShadowApp.jsx           # Main React application
+│   ├── ShadowStyles.jsx        # CSS-in-JS with variables
+│   └── main.jsx                # Web component entry point
+├── api/                         # REST API endpoints
+│   ├── class-user-endpoint.php  # User data API
+│   └── class-site-endpoint.php  # Site information API
+├── inc/                         # PHP classes
+│   ├── class-admin.php         # Admin functionality
+│   ├── class-assets.php        # Asset management
+│   └── class-api.php           # API registration
+├── shadow-plugin.php           # Main plugin file
+├── STYLEGUIDE.md              # Design system reference
+├── CLAUDE.md                  # LLM development guide
+└── repo_assets/               # Documentation assets
+    └── startup.mp4            # Demo video
 ```
 
-### Demo Command Palette
+### Clean Data Flow
 
-When activated, shows a working command palette with:
-
-- ✅ **"Shadow Plugin Boilerplate is Working!"** - React + Shadow DOM loaded
-- 🎨 **"Raycast Design System Active"** - Full design system ready
-- 🛡️ **"Style Isolation Working"** - No WordPress style conflicts
-- 🔌 **"WordPress API Ready"** - REST endpoints configured
-
-## 🎨 Raycast Design System
-
-Complete design system included with 400+ lines of beautiful CSS:
-
-### Key Components
-- **Panels** - `.shadow-plugin-panel` with backdrop blur
-- **Buttons** - `.shadow-button`, `.shadow-button-default`, `.shadow-button-ghost`
-- **Command Interface** - `.shadow-command-container`, search & animations
-- **Forms** - `.shadow-form-input`, `.shadow-form-group`
-- **Colors** - Dark theme optimized with CSS variables
-
-### Usage Examples
-```jsx
-// Beautiful button
-<button className="shadow-button shadow-button-default">
-  Save Changes
-</button>
-
-// Form input
-<div className="shadow-form-group">
-  <label>Your Setting</label>
-  <input type="text" className="shadow-form-input" />
-</div>
+```mermaid
+graph LR
+    A[WordPress] --> B[REST Nonce]
+    B --> C[Web Component]
+    C --> D[React App]
+    D --> E[Fetch API Data]
+    E --> F[Display Results]
 ```
 
-## 🛠️ Development
+**Key Principle:** Only pass the **REST nonce** as a prop, fetch everything else via API.
+
+## 🔧 Development Commands
 
 ```bash
-npm run dev         # Development with hot reload
-npm run build       # Production build
-npm run build:watch # Build and watch for changes
+# Development with hot reload
+npm run dev
+
+# Production build
+npm run build
+
+# Build and watch for changes
+npm run build:watch
+
+# Preview built files
+npm run preview
 ```
 
-## 📋 Building Your Plugin
+## 🎨 Design System
 
-### 1. Replace Demo Content
+The plugin includes a complete **Raycast-inspired design system** with:
 
-Edit `src/ShadowApp.jsx`:
+### CSS Variables (LLM-Friendly)
+```css
+/* Background Colors */
+--surface: rgba(24, 24, 27, 0.95)        /* Main containers */
+--surface-hover: rgba(39, 39, 42, 0.95)  /* Interactive states */
+--surface-bg: rgba(9, 9, 11, 0.95)       /* Page backgrounds */
+
+/* Text Colors */
+--text-primary: rgba(255, 255, 255, 0.98)   /* Headings */
+--text-secondary: rgba(255, 255, 255, 0.7)  /* Body text */
+--text-tertiary: rgba(255, 255, 255, 0.5)   /* Subtle text */
+```
+
+### Component Examples
+```jsx
+// Button with design system
+<button style={{
+  backgroundColor: 'var(--surface)',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border)'
+}}>
+  Click me
+</button>
+
+// Input field
+<input style={{
+  backgroundColor: 'transparent',
+  color: 'var(--text-primary)',
+  border: '1px solid var(--border)'
+}} />
+```
+
+See **[STYLEGUIDE.md](STYLEGUIDE.md)** for complete reference.
+
+## 🌐 REST API Integration
+
+### Available Endpoints
+
+```bash
+# Test API is working
+GET /wp-json/shadow-plugin/v1/status
+
+# Get current user data (requires auth)
+GET /wp-json/shadow-plugin/v1/user
+
+# Get site information (requires auth)
+GET /wp-json/shadow-plugin/v1/site
+```
+
+### Example Usage in React
 
 ```jsx
-import React, { useState } from 'react';
-import { ShadowStyles } from './ShadowStyles';
-
-export function ShadowApp() {
-  return (
-    <>
-      <ShadowStyles />
-      {/* Build your plugin UI here */}
-      <div className="shadow-plugin-panel right">
-        <div className="shadow-plugin-header">
-          <h2>My Awesome Plugin</h2>
-        </div>
-        <div style={{ padding: 'var(--space-4)' }}>
-          <div className="shadow-form-group">
-            <label>Plugin Setting</label>
-            <input type="text" className="shadow-form-input" />
-          </div>
-          <button className="shadow-button shadow-button-default">
-            Save
-          </button>
-        </div>
-      </div>
-    </>
-  );
-}
-```
-
-### 2. Customize Branding
-
-Update these files:
-- `shadow-plugin.php` - Plugin name, description, author
-- `package.json` - Package name and details
-- Rename files as needed
-
-### 3. Add Your Features
-
-The boilerplate gives you:
-- **WordPress integration** - PHP plugin structure
-- **React app** - Modern component architecture  
-- **Shadow DOM** - Complete style isolation
-- **Beautiful design** - Raycast system ready to use
-- **Build system** - Vite for fast development
-
-## 🎯 Integration Examples
-
-### Simple Trigger
-```html
-<button onclick="openPlugin()">Open Panel</button>
-<shadow-plugin-panel></shadow-plugin-panel>
-```
-
-### Gutenberg Block
-```jsx
-const openPanel = () => {
-  let panel = document.querySelector('shadow-plugin-panel');
-  if (!panel) {
-    panel = document.createElement('shadow-plugin-panel');
-    document.body.appendChild(panel);
+// Fetch user data with nonce authentication
+const response = await fetch('/wp-json/shadow-plugin/v1/user', {
+  headers: {
+    'X-WP-Nonce': restNonce  // Passed as web component prop
   }
-};
+});
+const userData = await response.json();
 ```
 
-See `INTEGRATION.md` for more examples.
+### Adding New Endpoints
 
-## 🔍 Why This Boilerplate?
+1. **Create endpoint class** in `api/` directory
+2. **Register in** `inc/class-api.php`
+3. **Add nonce verification** for security
+4. **Return JSON responses** with proper error handling
 
-### ✅ **Minimal Dependencies**
-- Only 4 npm packages
-- No complex state management 
-- No unnecessary abstractions
-- Easy to understand and extend
+## 🧩 Component Architecture
 
-### ✅ **Complete Design System**
-- 400+ lines of production-ready CSS
-- Raycast-inspired beautiful interface
-- Dark theme optimized
-- Consistent spacing and typography
+### Web Component Integration
 
-### ✅ **Perfect Isolation**
-- Shadow DOM prevents all style conflicts
-- Your plugin UI never breaks
-- Works with any WordPress theme
-- Future-proof architecture
-
-### ✅ **WordPress Native**
-- Proper plugin structure
-- REST API integration ready
-- Security best practices
-- GPL-compatible license
-
-## 📦 Recommended React Packages
-
-### State Management
-- **[Zustand](https://github.com/pmndrs/zustand)** - Lightweight state management (2.9kb)
-  ```bash
-  npm install zustand
-  ```
-  ```jsx
-  import { create } from 'zustand'
-  
-  const usePluginStore = create((set) => ({
-    isOpen: false,
-    settings: {},
-    togglePanel: () => set((state) => ({ isOpen: !state.isOpen })),
-    updateSetting: (key, value) => set((state) => ({ 
-      settings: { ...state.settings, [key]: value } 
-    }))
-  }))
-  ```
-
-- **[Jotai](https://jotai.org/)** - Atomic state management
-- **[Valtio](https://github.com/pmndrs/valtio)** - Proxy-based state
-
-### UI Components ✨ **INCLUDED**
-- **[Radix UI](https://www.radix-ui.com/)** - Unstyled, accessible components ✅ **Pre-installed**
-  ```bash
-  # Already included in boilerplate
-  npm install @radix-ui/react-dialog @radix-ui/react-tabs @radix-ui/react-switch
-  ```
-  ```jsx
-  import * as Dialog from '@radix-ui/react-dialog';
-  import * as Tabs from '@radix-ui/react-tabs';
-  import * as Switch from '@radix-ui/react-switch';
-  ```
-
-### UI & Interaction
-- **[React Hook Form](https://react-hook-form.com/)** - Performant forms with easy validation
-- **[React Query/TanStack Query](https://tanstack.com/query/)** - Data fetching and caching
-- **[React DnD](https://react-dnd.github.io/react-dnd/)** - Drag and drop interactions
-- **[React Hotkeys Hook](https://github.com/JohannesKlauss/react-hotkeys-hook)** - Keyboard shortcuts
-
-### Utilities
-- **[Immer](https://immerjs.github.io/immer/)** - Immutable state updates
-- **[React Use](https://github.com/streamich/react-use)** - Essential React hooks collection
-- **[Lodash-es](https://lodash.com/)** - Utility functions (tree-shakeable)
-
-### WordPress Specific
-- **[@wordpress/api-fetch](https://www.npmjs.com/package/@wordpress/api-fetch)** - WordPress REST API client
-- **[@wordpress/components](https://www.npmjs.com/package/@wordpress/components)** - WordPress UI components
-
-## 🔗 Server-Side Integration
-
-### Passing PHP Data to React Components
-
-The boilerplate includes seamless server-side data integration via web component attributes:
-
-#### Method 1: Direct HTML Attributes
-```php
-// In your PHP template/admin page
-<shadow-plugin-panel 
-    user-role="<?php echo esc_attr($user_role); ?>"
-    site-url="<?php echo esc_attr(home_url()); ?>"
-    user-id="<?php echo esc_attr($current_user->ID); ?>"
-    settings='<?php echo esc_attr(json_encode($settings)); ?>'
-    api-nonce="<?php echo esc_attr(wp_create_nonce('plugin_nonce')); ?>"
-    is-admin="<?php echo esc_attr(current_user_can('manage_options') ? 'true' : 'false'); ?>"
-></shadow-plugin-panel>
-```
-
-#### Method 2: JavaScript Dynamic Creation
-```php
-// In your plugin's PHP enqueue function
-add_action('wp_footer', function() {
-    ?>
-    <script>
-        const panel = document.createElement('shadow-plugin-panel');
-        panel.setAttribute('user-role', '<?php echo esc_js($user_role); ?>');
-        panel.setAttribute('user-id', '<?php echo esc_js($user_id); ?>');
-        panel.setAttribute('settings', '<?php echo esc_js(json_encode($settings)); ?>');
-        document.body.appendChild(panel);
-    </script>
-    <?php
+```javascript
+// main.jsx - Web component definition
+const ShadowPluginElement = r2wc(ShadowApp, {
+  shadow: 'open',
+  props: {
+    restNonce: 'string'  // Only prop needed
+  }
 });
 ```
 
-#### React Component Receives Props
-```jsx
-export function ShadowApp(props = {}) {
-  const {
-    userRole = 'guest',
-    siteUrl = window.location.origin,
-    userId = 0,
-    settings = {},
-    apiNonce = '',
-    isAdmin = false
-  } = props;
+### PHP to React Data Flow
 
-  // Use server data directly in React
-  return (
-    <div>
-      <h2>Welcome {userRole} (ID: {userId})</h2>
-      <p>Site: {siteUrl}</p>
-      {isAdmin && <AdminPanel settings={settings} />}
-    </div>
-  );
+```php
+<!-- PHP: Pass only REST nonce -->
+<shadow-plugin-panel rest-nonce="<?php echo wp_create_nonce('wp_rest'); ?>">
+
+<!-- Converted to React prop -->
+function ShadowApp({ restNonce }) {
+  // Use nonce to fetch all data via API
 }
 ```
 
-### Use Cases for Server Integration
+### Adding New Components
 
-1. **User Context** - Pass user roles, permissions, preferences
-2. **Site Configuration** - URLs, settings, feature flags
-3. **Security** - Nonces, API keys, authentication tokens
-4. **Content Data** - Posts, pages, custom field values
-5. **Plugin Settings** - Configuration from WordPress options table
+1. **Create in** `src/components/`
+2. **Import in** parent component
+3. **Follow CSS variable patterns**
+4. **Add to STYLEGUIDE.md** if reusable
 
-### WordPress Data Sources
+## 🔒 Security Features
 
-```php
-// Common WordPress data to pass to React
-$server_data = [
-    'user_role' => wp_get_current_user()->roles[0] ?? 'guest',
-    'user_id' => get_current_user_id(),
-    'site_url' => home_url(),
-    'admin_url' => admin_url(),
-    'is_admin' => current_user_can('manage_options'),
-    'api_nonce' => wp_create_nonce('wp_rest'),
-    'settings' => get_option('my_plugin_settings', []),
-    'posts' => get_posts(['numberposts' => 10]),
-    'theme' => get_option('stylesheet'),
-    'plugins' => get_option('active_plugins')
-];
-```
+- ✅ **WordPress REST nonces** for API authentication
+- ✅ **Permission callbacks** on all endpoints  
+- ✅ **Input sanitization** with `esc_attr()`, `esc_js()`
+- ✅ **Shadow DOM isolation** prevents XSS via CSS
+- ✅ **Logged-in user requirements** for sensitive data
 
-## ✅ Completed Features
+## 📋 What's Included
 
-- [x] **React 18 Integration** - Modern React with hooks and concurrent features
-- [x] **Shadow DOM Architecture** - Complete style isolation from WordPress themes
-- [x] **Raycast Design System** - 400+ lines of production-ready CSS components
-- [x] **Radix UI Components** - Dialog, Tabs, Switch with demo implementation
-- [x] **Server Props Integration** - PHP data seamlessly passed to React components
-- [x] **Vite Build System** - Fast development with HMR and optimized builds
-- [x] **Web Components** - Custom elements using @r2wc/react-to-web-component
-- [x] **Framer Motion** - Smooth animations and transitions
-- [x] **WordPress Plugin Structure** - Proper PHP plugin with activation hooks
-- [x] **Keyboard Shortcuts** - Cmd/Ctrl + ` to toggle panel
-- [x] **Responsive Design** - Works on all screen sizes
-- [x] **Command Palette Demo** - Working example with search and actions
-- [x] **Form Components** - Input fields, buttons, and form groups
-- [x] **Panel Positioning** - Right-side panel with backdrop blur
-- [x] **Development Scripts** - Build, watch, and preview commands
-- [x] **GPL License** - WordPress-compatible licensing
+### ✅ **Completed Features**
+- [x] React 18 with Shadow DOM architecture
+- [x] Raycast design system with CSS variables
+- [x] REST API endpoints for user and site data
+- [x] Modular PHP class structure
+- [x] Web component with proper prop passing
+- [x] Keyboard shortcuts and animations
+- [x] Loading states and error handling
+- [x] LLM-friendly documentation and code patterns
 
-## 📋 TODO Items
+### 🎯 **Perfect for Building**
+- **Admin interfaces** with WordPress data
+- **Frontend widgets** with style isolation
+- **Command palettes** and search interfaces
+- **Settings panels** with real-time data
+- **Dashboard components** with API integration
 
-- [ ] **TypeScript Support** - Add TypeScript configuration and type definitions
-- [ ] **Testing Setup** - Jest/React Testing Library configuration
-- [ ] **Storybook Integration** - Component documentation and testing
-- [ ] **ESLint/Prettier** - Code formatting and linting rules
-- [ ] **WordPress REST API Examples** - Complete CRUD operations
-- [ ] **Admin Settings Page** - WordPress admin interface integration
-- [ ] **Internationalization (i18n)** - Multi-language support
-- [ ] **Plugin Options Panel** - Settings persistence in WordPress database
-- [ ] **Custom Hook Examples** - WordPress-specific React hooks
-- [ ] **Performance Optimization** - Code splitting and lazy loading
-- [ ] **Plugin Updater** - Auto-update mechanism
-- [ ] **Debug Mode** - Development debugging tools
-- [ ] **Error Boundaries** - React error handling
-- [ ] **Accessibility (a11y)** - WCAG compliance and screen reader support
-- [ ] **Mobile Optimization** - Touch interactions and mobile UX
+## 🔧 Troubleshooting
 
-## 💡 Plugin Ideas & Extensions
+### "API Error: JSON.parse" when plugin loads
 
-### Content Management
-- **Custom Post Type Manager** - Visual post type and field creation
-- **Media Library Enhancer** - Advanced media organization and editing
-- **Content Templates** - Reusable content blocks and templates
-- **Bulk Content Editor** - Mass edit posts, pages, and custom fields
+**Most Common Issue:** WordPress REST API not working
 
-### E-commerce & Business
-- **Simple Store Builder** - Product catalog with Shadow DOM components
-- **Lead Generation Forms** - Advanced form builder with CRM integration
-- **Appointment Booking** - Calendar and scheduling system
-- **Membership Portal** - User registration and content restriction
+**Solution:**
+1. **Enable Pretty Permalinks**: WordPress Admin → Settings → Permalinks
+2. Select **"Post name"** or any option except "Plain"
+3. Click **"Save Changes"**
+4. Refresh and test again
 
-### Developer Tools
-- **Code Snippet Manager** - PHP/JS code snippets with syntax highlighting
-- **Database Query Builder** - Visual SQL query construction
-- **API Endpoint Tester** - WordPress REST API testing interface
-- **Theme/Plugin Inspector** - Debug WordPress hooks and filters
+### Plugin shows "No REST nonce provided"
 
-### Analytics & Monitoring
-- **Custom Analytics Dashboard** - Site metrics with beautiful charts
-- **Performance Monitor** - Page speed and optimization recommendations
-- **User Activity Tracker** - Detailed user behavior analytics
-- **Error Logger** - JavaScript and PHP error tracking
+**Cause:** Web component attributes not passing correctly
 
-### Content Creation
-- **AI Writing Assistant** - Content generation with OpenAI integration
-- **Image Optimizer** - Automatic image compression and WebP conversion
-- **SEO Optimization Tool** - Meta tags and schema markup generator
-- **Social Media Manager** - Auto-posting and social integration
+**Solution:**
+1. Check browser console for JavaScript errors
+2. Verify plugin JS is loading: `/wp-content/plugins/shadow-plugin/dist/js/shadow-plugin.js`
+3. Rebuild: `npm run build`
 
-### Workflow & Automation
-- **Task Management** - Project management within WordPress admin
-- **Email Automation** - Drip campaigns and user onboarding
-- **Backup & Sync** - Automated backups with cloud storage
-- **Multi-site Manager** - Centralized WordPress network management
+### Command palette doesn't open
 
-## 📚 Learn More
+**Solution:**
+1. Press `F12` → Console tab for errors
+2. Try `Cmd/Ctrl + K` (not backtick)
+3. Click the "Open Command Palette" button
+4. Check for plugin conflicts
 
-- [WordPress Plugin Development](https://developer.wordpress.org/plugins/)
-- [React Documentation](https://react.dev/)
-- [Shadow DOM Guide](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM)
-- [Vite Documentation](https://vitejs.dev/)
+### API endpoints return 404
 
-## 🤝 Getting Help
+**Solution:**
+1. WordPress Admin → Settings → Permalinks
+2. Click **"Save Changes"** (flushes rewrite rules)
+3. Test directly: `/wp-json/shadow-plugin/v1/status`
 
-1. Check the demo works (should auto-open)
-2. Look at browser console for errors
-3. Verify Node.js 18+ and WordPress 5.8+
-4. Check `INTEGRATION.md` for examples
+## 📚 Additional Documentation
+
+- **[STYLEGUIDE.md](STYLEGUIDE.md)** - Complete design system reference for LLMs
+- **[CLAUDE.md](CLAUDE.md)** - Development guide for AI assistants
+
+## 🤝 Contributing
+
+This boilerplate demonstrates modern WordPress plugin development with:
+- Clean, modular architecture
+- LLM-friendly code patterns
+- Production-ready security
+- Comprehensive documentation
 
 ## 📄 License
 
-GPL v2 or later - Perfect for WordPress plugins
+GPL v2 or later - Perfect for WordPress plugin development
+
+## 👨‍💻 Author
+
+**Daniel Snell @Umbral.ai**
 
 ---
 
-**🚀 Ready to build something amazing?**
+**🚀 Ready to build modern WordPress plugins with React?**
 
-This boilerplate gives you everything you need in just 7 files. The demo shows it works - now make it yours!
+This boilerplate gives you everything you need with clean architecture, security best practices, and beautiful design. The demo shows it works - now make it yours!
