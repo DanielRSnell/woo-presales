@@ -1,7 +1,7 @@
 {
-  "name": "shadow-plugin-boilerplate",
+  "name": "wc-cart-share-quote",
   "version": "1.0.0",
-  "description": "WordPress plugin boilerplate with React Shadow DOM and Raycast design system",
+  "description": "WooCommerce plugin for sharing carts via URL and converting to quotes",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,11 +11,13 @@
   },
   "keywords": [
     "wordpress",
+    "woocommerce",
     "plugin",
     "react",
     "shadow-dom",
-    "boilerplate",
-    "raycast"
+    "cart",
+    "quote",
+    "share"
   ],
   "author": "Daniel Snell @Umbral.ai",
   "license": "GPL-2.0-or-later",
@@ -31,6 +33,7 @@
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.12",
     "framer-motion": "^11.0.3",
+    "lucide-react": "^0.513.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }

@@ -1,313 +1,228 @@
-# Shadow Plugin Boilerplate
+# WooCommerce Cart Share & Quote
 
-A modern WordPress plugin boilerplate featuring **React 18**, **Shadow DOM isolation**, and **REST API integration**. Built with production-ready architecture, modular components, and the beautiful **Raycast design system**.
+A WooCommerce plugin that allows customers to share their cart via URL or convert it to a quote for approval.
 
-https://github.com/user-attachments/assets/ae7c0d35-d6e6-4f83-9087-8c8d2c0ae0e0
+## Features
 
-## ✨ Key Features
+- **Share Cart via URL**: Generate shareable links for cart contents with expiration dates
+- **Quote Request System**: Convert carts to quote requests for bulk pricing/approval
+- **React Shadow DOM UI**: Modern, isolated UI components that work with any theme
+- **Admin Management**: Full admin interface to manage shared carts and quotes
+- **WooCommerce Integration**: Seamless integration with cart and checkout pages
+- **Security**: Rate limiting, nonce protection, and data validation
+- **REST API**: Clean API endpoints for all cart/quote operations
 
-- 🎯 **React 18** with modern hooks and components
-- 🔒 **Shadow DOM** for complete style isolation from WordPress themes
-- 🌐 **REST API Integration** with authenticated requests
-- 🎨 **Raycast Design System** with CSS variables and semantic tokens
-- ⚡ **Vite Build System** for lightning-fast development
-- 🧩 **Modular Architecture** with clean separation of concerns
-- ⌨️ **Keyboard Shortcuts** (`Cmd/Ctrl + K` to toggle)
-- 📦 **Web Components** using @r2wc/react-to-web-component
-- 🎭 **Framer Motion** animations and smooth transitions
-- 📱 **Responsive Design** that works on all devices
+## Requirements
 
-## 🚀 Quick Start
+- WordPress 5.0+
+- WooCommerce 5.0+ (Compatible with WooCommerce 8.5+)
+- PHP 7.4+
+- **HPOS Compatible**: Fully compatible with WooCommerce High-Performance Order Storage
 
-### Prerequisites
-- **WordPress 5.8+**
-- **Node.js 18+**
-- **Pretty Permalinks enabled** (see troubleshooting below)
+## Installation
 
-### Installation
+1. Upload the plugin folder to `/wp-content/plugins/`
+2. Activate the plugin through WordPress admin
+3. Make sure WooCommerce is installed and active
+4. Plugin will automatically add share/quote buttons to cart pages
 
-```bash
-# 1. Clone or copy the boilerplate
-git clone <repo-url> your-plugin-name
-cd your-plugin-name
+## How It Works
 
-# 2. Install dependencies
-npm install
-# or
-pnpm install
+### For Customers
 
-# 3. Build the plugin
-npm run build
+**Sharing Carts:**
+1. Add items to WooCommerce cart
+2. Click "Share Cart" button on cart page
+3. Optionally provide contact details and expiration time
+4. Get a shareable URL like: `yoursite.com/shared-cart/abc123def456`
+5. Anyone with the link can view items and add them to their cart
 
-# 4. Activate in WordPress Admin → Plugins
-```
+**Requesting Quotes:**
+1. Add items to cart
+2. Click "Request Quote" button
+3. Fill in contact information and message
+4. Submit quote request for admin review
+5. Get quote URL like: `yoursite.com/quote/123`
 
-### ⚠️ **Important: Enable Pretty Permalinks**
+### For Store Administrators
 
-**Before testing, you MUST enable pretty permalinks:**
+**Managing Shared Carts:**
+- View all shared carts in WooCommerce > Shared Carts
+- See customer info, items, totals, and access counts
+- Monitor expiration dates and access analytics
 
-1. Go to **WordPress Admin → Settings → Permalinks**
-2. Select **"Post name"** or any option except "Plain"
-3. Click **"Save Changes"**
+**Managing Quotes:**
+- Review quote requests in WooCommerce > Cart Quotes
+- Approve/reject quotes with custom pricing
+- Filter by status (pending, approved, rejected, expired)
+- Email notifications and admin bar notifications
 
-*Why? WordPress REST API requires pretty permalinks to function.*
-
-### 🧪 Test the Plugin
-
-1. **Visit any WordPress admin page**
-2. **Press `Cmd/Ctrl + K`** to open the command palette
-3. **See real data** fetched from WordPress REST API
-4. **If you see JSON errors** → Check permalinks are enabled
-
-## 🏗️ Architecture Overview
-
-### Modern File Structure
+## Plugin Structure
 
 ```
-shadow-plugin/
-├── src/                          # React source files
-│   ├── components/              # Modular React components
-│   │   ├── CommandPalette.jsx   # Main command interface
-│   │   ├── SearchInput.jsx      # Search with icon
-│   │   ├── CommandItem.jsx      # Individual list items
-│   │   └── TriggerButton.jsx    # Floating trigger
-│   ├── ShadowApp.jsx           # Main React application
-│   ├── ShadowStyles.jsx        # CSS-in-JS with variables
-│   └── main.jsx                # Web component entry point
-├── api/                         # REST API endpoints
-│   ├── class-user-endpoint.php  # User data API
-│   └── class-site-endpoint.php  # Site information API
-├── inc/                         # PHP classes
-│   ├── class-admin.php         # Admin functionality
-│   ├── class-assets.php        # Asset management
-│   └── class-api.php           # API registration
-├── shadow-plugin.php           # Main plugin file
-├── STYLEGUIDE.md              # Design system reference
-├── CLAUDE.md                  # LLM development guide
-└── repo_assets/               # Documentation assets
-    └── startup.mp4            # Demo video
+├── shadow-plugin.php                    # Main plugin file
+├── inc/                                 # PHP classes
+│   ├── class-admin.php                 # Admin interface
+│   ├── class-assets.php                # Asset management
+│   ├── class-api.php                   # REST API coordinator
+│   ├── class-woocommerce-integration.php  # WooCommerce hooks
+│   └── class-security.php              # Security & rate limiting
+├── api/                                # API endpoints
+│   ├── class-user-endpoint.php        # User data
+│   ├── class-site-endpoint.php        # Site data
+│   └── class-cart-endpoint.php        # Cart operations
+├── src/                                # React source
+│   ├── main.jsx                       # Entry point
+│   ├── ShadowApp.jsx                  # Main React app
+│   ├── ShadowStyles.jsx               # Design system
+│   └── components/                    # React components
+│       ├── SharedCartView.jsx         # Shared cart page
+│       ├── QuoteView.jsx              # Quote page
+│       └── CartActionsModal.jsx       # Cart share/quote modals
+└── dist/                              # Built assets
 ```
 
-### Clean Data Flow
+## Database Schema
 
-```mermaid
-graph LR
-    A[WordPress] --> B[REST Nonce]
-    B --> C[Web Component]
-    C --> D[React App]
-    D --> E[Fetch API Data]
-    E --> F[Display Results]
-```
+### Custom Post Types
 
-**Key Principle:** Only pass the **REST nonce** as a prop, fetch everything else via API.
+**shared_cart:**
+- `_cart_data` - Serialized cart items array
+- `_cart_hash` - Unique 12-character identifier
+- `_customer_name` - Customer name (optional)
+- `_customer_email` - Customer email (optional)
+- `_customer_phone` - Customer phone (optional)
+- `_customer_id` - WordPress user ID (if logged in)
+- `_expires_at` - Expiration datetime
+- `_access_count` - Number of times accessed
+- `_created_at` - Creation timestamp
 
-## 🔧 Development Commands
+**cart_quote:**
+- `_cart_data` - Serialized cart items array
+- `_quote_status` - Status: pending, approved, rejected, expired
+- `_quote_total` - Admin-set quote total amount
+- `_quote_notes` - Internal admin notes
+- `_customer_name` - Customer name (required)
+- `_customer_email` - Customer email (required)
+- `_customer_phone` - Customer phone (optional)
+- `_customer_id` - WordPress user ID (if logged in)
+- `_expires_at` - Quote expiration datetime
+- `_created_at` - Creation timestamp
 
-```bash
-# Development with hot reload
-npm run dev
+## API Endpoints
 
-# Production build
-npm run build
+Base URL: `/wp-json/wc-cart-share-quote/v1/`
 
-# Build and watch for changes
-npm run build:watch
+**Cart Operations:**
+- `GET /cart` - Get current cart contents
+- `POST /cart/share` - Create shareable cart URL
+- `POST /cart/quote` - Create quote request
+- `GET /shared-cart/{hash}` - Get shared cart by hash
+- `POST /shared-cart/{hash}/add` - Add shared cart to current cart
+- `GET /quote/{id}` - Get quote details
+- `POST /quote/{id}/accept` - Accept approved quote
 
-# Preview built files
-npm run preview
-```
+**Security Features:**
+- Nonce-based authentication
+- Rate limiting (5 shares/3 quotes per 5 minutes)
+- Input validation and sanitization
+- Cart data structure validation
+- Automatic cleanup of expired data
 
-## 🎨 Design System
-
-The plugin includes a complete **Raycast-inspired design system** with:
-
-### CSS Variables (LLM-Friendly)
-```css
-/* Background Colors */
---surface: rgba(24, 24, 27, 0.95)        /* Main containers */
---surface-hover: rgba(39, 39, 42, 0.95)  /* Interactive states */
---surface-bg: rgba(9, 9, 11, 0.95)       /* Page backgrounds */
-
-/* Text Colors */
---text-primary: rgba(255, 255, 255, 0.98)   /* Headings */
---text-secondary: rgba(255, 255, 255, 0.7)  /* Body text */
---text-tertiary: rgba(255, 255, 255, 0.5)   /* Subtle text */
-```
-
-### Component Examples
-```jsx
-// Button with design system
-<button style={{
-  backgroundColor: 'var(--surface)',
-  color: 'var(--text-primary)',
-  border: '1px solid var(--border)'
-}}>
-  Click me
-</button>
-
-// Input field
-<input style={{
-  backgroundColor: 'transparent',
-  color: 'var(--text-primary)',
-  border: '1px solid var(--border)'
-}} />
-```
-
-See **[STYLEGUIDE.md](STYLEGUIDE.md)** for complete reference.
-
-## 🌐 REST API Integration
-
-### Available Endpoints
-
-```bash
-# Test API is working
-GET /wp-json/shadow-plugin/v1/status
-
-# Get current user data (requires auth)
-GET /wp-json/shadow-plugin/v1/user
-
-# Get site information (requires auth)
-GET /wp-json/shadow-plugin/v1/site
-```
-
-### Example Usage in React
-
-```jsx
-// Fetch user data with nonce authentication
-const response = await fetch('/wp-json/shadow-plugin/v1/user', {
-  headers: {
-    'X-WP-Nonce': restNonce  // Passed as web component prop
-  }
-});
-const userData = await response.json();
-```
-
-### Adding New Endpoints
-
-1. **Create endpoint class** in `api/` directory
-2. **Register in** `inc/class-api.php`
-3. **Add nonce verification** for security
-4. **Return JSON responses** with proper error handling
-
-## 🧩 Component Architecture
-
-### Web Component Integration
-
-```javascript
-// main.jsx - Web component definition
-const ShadowPluginElement = r2wc(ShadowApp, {
-  shadow: 'open',
-  props: {
-    restNonce: 'string'  // Only prop needed
-  }
-});
-```
-
-### PHP to React Data Flow
+## Shortcodes
 
 ```php
-<!-- PHP: Pass only REST nonce -->
-<shadow-plugin-panel rest-nonce="<?php echo wp_create_nonce('wp_rest'); ?>">
+// Share/quote buttons with default styling
+[wc_cart_share_quote_buttons]
 
-<!-- Converted to React prop -->
-function ShadowApp({ restNonce }) {
-  // Use nonce to fetch all data via API
-}
+// Only share button
+[wc_cart_share_quote_buttons show_quote="false"]
+
+// Link style instead of buttons
+[wc_cart_share_quote_buttons style="links"]
+
+// Mini style for sidebars
+[wc_cart_share_quote_buttons style="mini"]
 ```
 
-### Adding New Components
+## Development
 
-1. **Create in** `src/components/`
-2. **Import in** parent component
-3. **Follow CSS variable patterns**
-4. **Add to STYLEGUIDE.md** if reusable
+**Setup:**
+```bash
+npm install
+npm run dev    # Development with hot reload
+npm run build  # Production build
+```
 
-## 🔒 Security Features
+**Adding Features:**
+1. Backend: Create PHP classes in `inc/` or `api/`
+2. Frontend: Add React components in `src/components/`
+3. Integration: Hook into WooCommerce via `class-woocommerce-integration.php`
 
-- ✅ **WordPress REST nonces** for API authentication
-- ✅ **Permission callbacks** on all endpoints  
-- ✅ **Input sanitization** with `esc_attr()`, `esc_js()`
-- ✅ **Shadow DOM isolation** prevents XSS via CSS
-- ✅ **Logged-in user requirements** for sensitive data
+## Security & Compatibility
 
-## 📋 What's Included
+- **HPOS Compatible**: Fully compatible with WooCommerce High-Performance Order Storage (HPOS)
+- **Rate Limiting**: API endpoints have configurable rate limits
+- **Data Validation**: All cart data validated for security
+- **Nonce Protection**: WordPress nonces on all operations
+- **Input Sanitization**: All user input properly sanitized
+- **Automatic Cleanup**: Expired data automatically removed
+- **Access Control**: Quotes protected by capability checks
+- **WooCommerce Standards**: Follows WooCommerce coding and security standards
 
-### ✅ **Completed Features**
-- [x] React 18 with Shadow DOM architecture
-- [x] Raycast design system with CSS variables
-- [x] REST API endpoints for user and site data
-- [x] Modular PHP class structure
-- [x] Web component with proper prop passing
-- [x] Keyboard shortcuts and animations
-- [x] Loading states and error handling
-- [x] LLM-friendly documentation and code patterns
+## Hooks & Filters
 
-### 🎯 **Perfect for Building**
-- **Admin interfaces** with WordPress data
-- **Frontend widgets** with style isolation
-- **Command palettes** and search interfaces
-- **Settings panels** with real-time data
-- **Dashboard components** with API integration
+```php
+// Validate cart data before saving
+add_filter('wc_cart_share_quote_validate_cart_data', 'my_cart_validator');
 
-## 🔧 Troubleshooting
+// Sanitize customer data
+add_filter('wc_cart_share_quote_sanitize_customer_data', 'my_data_sanitizer');
 
-### "API Error: JSON.parse" when plugin loads
+// Customize share email template
+add_filter('wc_cart_share_quote_share_email_template', 'my_email_template');
+```
 
-**Most Common Issue:** WordPress REST API not working
+## Styling
 
-**Solution:**
-1. **Enable Pretty Permalinks**: WordPress Admin → Settings → Permalinks
-2. Select **"Post name"** or any option except "Plain"
-3. Click **"Save Changes"**
-4. Refresh and test again
+The plugin uses Shadow DOM for complete style isolation. All styles are in `src/ShadowStyles.jsx` using CSS-in-JS with a comprehensive design system based on Raycast UI.
 
-### Plugin shows "No REST nonce provided"
+## Browser Support
 
-**Cause:** Web component attributes not passing correctly
+- Chrome 63+ (Web Components, Shadow DOM)
+- Firefox 63+
+- Safari 13.1+
+- Edge 79+
 
-**Solution:**
-1. Check browser console for JavaScript errors
-2. Verify plugin JS is loading: `/wp-content/plugins/shadow-plugin/dist/js/shadow-plugin.js`
-3. Rebuild: `npm run build`
+## Troubleshooting
 
-### Command palette doesn't open
+### HPOS Compatibility Issues
 
-**Solution:**
-1. Press `F12` → Console tab for errors
-2. Try `Cmd/Ctrl + K` (not backtick)
-3. Click the "Open Command Palette" button
-4. Check for plugin conflicts
+If you see "This plugin is incompatible with HPOS" error:
 
-### API endpoints return 404
+1. **Deactivate and reactivate the plugin** - This ensures the compatibility declaration is properly registered
+2. **Check WooCommerce version** - Requires WooCommerce 7.1+ for HPOS compatibility features
+3. **Verify no plugin conflicts** - Some plugins may interfere with HPOS declarations
 
-**Solution:**
-1. WordPress Admin → Settings → Permalinks
-2. Click **"Save Changes"** (flushes rewrite rules)
-3. Test directly: `/wp-json/shadow-plugin/v1/status`
+### Testing HPOS Compatibility
 
-## 📚 Additional Documentation
+The plugin includes a test file for verifying HPOS compatibility:
 
-- **[STYLEGUIDE.md](STYLEGUIDE.md)** - Complete design system reference for LLMs
-- **[CLAUDE.md](CLAUDE.md)** - Development guide for AI assistants
+1. Activate the plugin
+2. Navigate to WordPress Admin
+3. Look for HPOS compatibility notices
+4. Optional: Include `hpos-compatibility-test.php` temporarily for detailed testing
 
-## 🤝 Contributing
+### Common Issues
 
-This boilerplate demonstrates modern WordPress plugin development with:
-- Clean, modular architecture
-- LLM-friendly code patterns
-- Production-ready security
-- Comprehensive documentation
+- **Cart sharing not working**: Ensure WooCommerce cart is properly initialized
+- **Quote emails not sending**: Check WordPress mail configuration
+- **Admin interface not showing**: Verify user has `manage_woocommerce` capability
 
-## 📄 License
+## License
 
-GPL v2 or later - Perfect for WordPress plugin development
+GPL v2 or later
 
-## 👨‍💻 Author
+## Support
 
-**Daniel Snell @Umbral.ai**
-
----
-
-**🚀 Ready to build modern WordPress plugins with React?**
-
-This boilerplate gives you everything you need with clean architecture, security best practices, and beautiful design. The demo shows it works - now make it yours!
+For issues and feature requests, please use the GitHub issue tracker.

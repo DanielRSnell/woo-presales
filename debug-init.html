@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug JavaScript Initialization</title>
+    <style>
+        body { font-family: monospace; margin: 20px; background: #f5f5f5; }
+        .log { background: white; padding: 20px; border-radius: 8px; margin: 10px 0; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .test-btn { background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🔍 JavaScript Initialization Debug</h1>
+    
+    <div class="log">
+        <h3>📋 Test Results</h3>
+        <div id="test-results"></div>
+    </div>
+    
+    <div class="log">
+        <h3>🧪 Manual Tests</h3>
+        <button class="test-btn" onclick="testShareModal()">Test Share Modal</button>
+        <button class="test-btn" onclick="testQuoteModal()">Test Quote Modal</button>
+        <button class="test-btn" onclick="testInit()">Test Init Function</button>
+    </div>
+    
+    <div class="log">
+        <h3>🧩 Component Test</h3>
+        <wc-cart-share-quote-panel 
+            rest-nonce="debug-nonce"
+            page-type="cart-actions">
+        </wc-cart-share-quote-panel>
+    </div>
+
+    <!-- Load the built JavaScript -->
+    <script src="dist/js/wc-cart-share-quote.js"></script>
+    
+    <script>
+        const results = document.getElementById('test-results');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+            console.log(message);
+        }
+        
+        function testInit() {
+            if (window.WCCartShareQuote) {
+                if (typeof window.WCCartShareQuote.init === 'function') {
+                    try {
+                        const result = window.WCCartShareQuote.init();
+                        log('✅ init() function called successfully, returned: ' + result, 'success');
+                    } catch (e) {
+                        log('❌ init() function threw error: ' + e.message, 'error');
+                    }
+                } else {
+                    log('❌ init is not a function, type: ' + typeof window.WCCartShareQuote.init, 'error');
+                }
+            } else {
+                log('❌ window.WCCartShareQuote not found', 'error');
+            }
+        }
+        
+        function testShareModal() {
+            if (window.wcCartShareQuote && typeof window.wcCartShareQuote.openShareModal === 'function') {
+                window.wcCartShareQuote.openShareModal();
+                log('✅ Share modal function called', 'success');
+            } else {
+                log('❌ wcCartShareQuote.openShareModal not available', 'error');
+            }
+        }
+        
+        function testQuoteModal() {
+            if (window.wcCartShareQuote && typeof window.wcCartShareQuote.openQuoteModal === 'function') {
+                window.wcCartShareQuote.openQuoteModal();
+                log('✅ Quote modal function called', 'success');
+            } else {
+                log('❌ wcCartShareQuote.openQuoteModal not available', 'error');
+            }
+        }
+        
+        // Initial tests
+        log('🚀 Starting initialization tests...', 'info');
+        
+        // Test immediately
+        setTimeout(() => {
+            log('📊 Testing global objects...', 'info');
+            
+            if (window.WCCartShareQuote) {
+                log('✅ window.WCCartShareQuote exists', 'success');
+                log('📋 Available methods: ' + Object.keys(window.WCCartShareQuote).join(', '), 'info');
+            } else {
+                log('❌ window.WCCartShareQuote not found', 'error');
+            }
+            
+            if (window.wcCartShareQuote) {
+                log('✅ window.wcCartShareQuote exists', 'success');
+                log('📋 Available methods: ' + Object.keys(window.wcCartShareQuote).join(', '), 'info');
+            } else {
+                log('⚠️ window.wcCartShareQuote not found (created by WordPress integration)', 'warning');
+            }
+            
+            if (customElements.get('wc-cart-share-quote-panel')) {
+                log('✅ Web component registered', 'success');
+            } else {
+                log('❌ Web component not registered', 'error');
+            }
+            
+            // Test the init function
+            testInit();
+            
+        }, 100);
+        
+        // Test after DOM loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            log('📄 DOM Content Loaded event fired', 'info');
+            setTimeout(() => {
+                log('🔄 Re-testing after DOMContentLoaded...', 'info');
+                testInit();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

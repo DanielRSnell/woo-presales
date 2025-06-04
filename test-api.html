@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test WC Cart Share Quote API</title>
+    <style>
+        body { font-family: monospace; margin: 20px; background: #f5f5f5; }
+        .test-section { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+        button { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; background: #007bff; color: white; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 WC Cart Share Quote API Test</h1>
+    
+    <div class="test-section">
+        <h3>📋 API Test Results</h3>
+        <div id="test-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>🧪 Manual Tests</h3>
+        <button onclick="testStatusEndpoint()">Test Status API</button>
+        <button onclick="testCartEndpoint()">Test Cart API</button>
+        <button onclick="testUserEndpoint()">Test User API</button>
+        <button onclick="testSiteEndpoint()">Test Site API</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>📊 Response Data</h3>
+        <div id="response-data"></div>
+    </div>
+
+    <script>
+        const results = document.getElementById('test-results');
+        const responseData = document.getElementById('response-data');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(div);
+            console.log(message);
+        }
+        
+        function showResponse(title, data) {
+            const div = document.createElement('div');
+            div.innerHTML = `<h4>${title}</h4><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            responseData.appendChild(div);
+        }
+        
+        async function testStatusEndpoint() {
+            log('🚀 Testing Status Endpoint...', 'info');
+            try {
+                const response = await fetch('/wp-json/wc-cart-share-quote/v1/status');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('✅ Status endpoint working!', 'success');
+                    showResponse('Status Response', data);
+                } else {
+                    log('❌ Status endpoint failed: ' + response.status, 'error');
+                    showResponse('Status Error', data);
+                }
+            } catch (error) {
+                log('❌ Network error: ' + error.message, 'error');
+            }
+        }
+        
+        async function testCartEndpoint() {
+            log('🛒 Testing Cart Endpoint...', 'info');
+            try {
+                const response = await fetch('/wp-json/wc-cart-share-quote/v1/cart');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('✅ Cart endpoint working!', 'success');
+                    showResponse('Cart Response', data);
+                } else {
+                    log('❌ Cart endpoint failed: ' + response.status, 'error');
+                    showResponse('Cart Error', data);
+                }
+            } catch (error) {
+                log('❌ Network error: ' + error.message, 'error');
+            }
+        }
+        
+        async function testUserEndpoint() {
+            log('👤 Testing User Endpoint...', 'info');
+            try {
+                const response = await fetch('/wp-json/wc-cart-share-quote/v1/user');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('✅ User endpoint working!', 'success');
+                    showResponse('User Response', data);
+                } else {
+                    log('❌ User endpoint failed: ' + response.status, 'error');
+                    showResponse('User Error', data);
+                }
+            } catch (error) {
+                log('❌ Network error: ' + error.message, 'error');
+            }
+        }
+        
+        async function testSiteEndpoint() {
+            log('🌐 Testing Site Endpoint...', 'info');
+            try {
+                const response = await fetch('/wp-json/wc-cart-share-quote/v1/site');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    log('✅ Site endpoint working!', 'success');
+                    showResponse('Site Response', data);
+                } else {
+                    log('❌ Site endpoint failed: ' + response.status, 'error');
+                    showResponse('Site Error', data);
+                }
+            } catch (error) {
+                log('❌ Network error: ' + error.message, 'error');
+            }
+        }
+        
+        // Auto-run tests
+        log('🚀 Starting API tests...', 'info');
+        setTimeout(() => {
+            testStatusEndpoint();
+        }, 500);
+    </script>
+</body>
+</html>

@@ -3,13 +3,13 @@
  * User data REST API endpoint
  */
 
-class ShadowPlugin_User_Endpoint {
+class WC_Cart_Share_Quote_User_Endpoint {
     
     /**
      * Register the user endpoint
      */
     public function register() {
-        register_rest_route('shadow-plugin/v1', '/user', [
+        register_rest_route('wc-cart-share-quote/v1', '/user', [
             'methods' => 'GET',
             'callback' => [$this, 'getUserData'],
             'permission_callback' => [$this, 'permissionCheck']

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { SearchInput } from './SearchInput';
 import { CommandItem } from './CommandItem';
+import { Zap } from 'lucide-react';
 
 export function CommandPalette({ 
   query, 
@@ -128,9 +129,13 @@ export function CommandPalette({
             <div style={{
               fontSize: '12px',
               color: 'var(--text-secondary)',
-              fontWeight: '500'
+              fontWeight: '500',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
             }}>
-              🚀 Shadow Plugin Boilerplate Demo
+              <Zap size={14} />
+              WooCommerce Cart Share & Quote
             </div>
             <div style={{
               display: 'flex',

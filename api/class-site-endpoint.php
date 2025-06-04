@@ -3,13 +3,13 @@
  * Site data REST API endpoint
  */
 
-class ShadowPlugin_Site_Endpoint {
+class WC_Cart_Share_Quote_Site_Endpoint {
     
     /**
      * Register the site endpoint
      */
     public function register() {
-        register_rest_route('shadow-plugin/v1', '/site', [
+        register_rest_route('wc-cart-share-quote/v1', '/site', [
             'methods' => 'GET',
             'callback' => [$this, 'getSiteData'],
             'permission_callback' => [$this, 'permissionCheck']
@@ -40,7 +40,7 @@ class ShadowPlugin_Site_Endpoint {
                 'siteName' => get_bloginfo('name'),
                 'siteDescription' => get_bloginfo('description'),
                 'adminUrl' => admin_url(),
-                'pluginVersion' => SHADOW_PLUGIN_VERSION,
+                'pluginVersion' => WC_CART_SHARE_QUOTE_VERSION,
                 'wordpressVersion' => get_bloginfo('version'),
                 'theme' => [
                     'name' => wp_get_theme()->get('Name'),

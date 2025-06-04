@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Command } from 'lucide-react';
 
 export function TriggerButton({ onClick }) {
   return (
@@ -45,7 +46,7 @@ export function TriggerButton({ onClick }) {
         transition: { duration: 0.1 }
       }}
     >
-      🚀
+      <Command size={16} />
       <span>Open Command Palette</span>
     </motion.button>
   );

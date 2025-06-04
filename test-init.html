@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test WCCartShareQuote Initialization</title>
+</head>
+<body>
+    <h1>Testing JavaScript Initialization</h1>
+    <div id="output"></div>
+    
+    <script src="dist/js/wc-cart-share-quote.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.style.margin = '5px 0';
+            div.style.padding = '5px';
+            div.style.backgroundColor = type === 'success' ? '#d4edda' : type === 'error' ? '#f8d7da' : '#d1ecf1';
+            div.innerHTML = message;
+            output.appendChild(div);
+        }
+        
+        // Test 1: Check if WCCartShareQuote exists
+        if (window.WCCartShareQuote) {
+            log('✅ window.WCCartShareQuote exists', 'success');
+        } else {
+            log('❌ window.WCCartShareQuote not found', 'error');
+        }
+        
+        // Test 2: Check if init function exists and is callable
+        if (window.WCCartShareQuote && typeof window.WCCartShareQuote.init === 'function') {
+            log('✅ init function exists and is a function', 'success');
+            
+            // Test 3: Call the init function
+            try {
+                const result = window.WCCartShareQuote.init();
+                log('✅ init() called successfully, returned: ' + result, 'success');
+            } catch (error) {
+                log('❌ Error calling init(): ' + error.message, 'error');
+            }
+        } else {
+            log('❌ init function not found or not a function', 'error');
+        }
+        
+        // Test 4: Test web component registration
+        if (customElements.get('wc-cart-share-quote-panel')) {
+            log('✅ Web component registered successfully', 'success');
+        } else {
+            log('❌ Web component not registered', 'error');
+        }
+        
+        // Test 5: Create a component instance
+        const testComponent = document.createElement('wc-cart-share-quote-panel');
+        testComponent.setAttribute('rest-nonce', 'test-nonce');
+        testComponent.setAttribute('page-type', 'default');
+        document.body.appendChild(testComponent);
+        log('✅ Test component created and added to DOM', 'success');
+    </script>
+</body>
+</html>

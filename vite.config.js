@@ -14,18 +14,20 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: 'src/main.jsx',
-      name: 'ShadowPlugin',
-      fileName: () => 'shadow-plugin.js',
+      name: 'WCCartShareQuote',
+      fileName: () => 'wc-cart-share-quote.js',
       formats: ['iife']
     },
     rollupOptions: {
       external: [],
       output: {
-        globals: {}
+        globals: {},
+        format: 'iife',
+        name: 'WCCartShareQuote'
       }
     },
     sourcemap: false,
-    minify: 'terser'
+    minify: false
   },
   
   server: {
