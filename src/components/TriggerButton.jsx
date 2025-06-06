@@ -8,13 +8,13 @@ export function TriggerButton({ onClick }) {
       onClick={onClick}
       style={{
         position: 'fixed',
-        top: '24px',
+        bottom: '24px',
         right: '24px',
         zIndex: 999999997,
         backgroundColor: 'var(--surface)',
         border: '1px solid var(--border)',
-        borderRadius: '12px',
-        padding: '12px 16px',
+        borderRadius: '50%',
+        padding: '12px',
         color: 'var(--text-primary)',
         fontSize: '14px',
         fontWeight: '500',
@@ -22,7 +22,9 @@ export function TriggerButton({ onClick }) {
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
+        justifyContent: 'center',
+        width: '48px',
+        height: '48px',
         backdropFilter: 'blur(20px) saturate(180%)',
         WebkitBackdropFilter: 'blur(20px) saturate(180%)',
         boxShadow: `
@@ -33,9 +35,9 @@ export function TriggerButton({ onClick }) {
         transition: 'all 0.2s ease',
         outline: 'none'
       }}
-      initial={{ opacity: 0, scale: 0.8, y: -10 }}
+      initial={{ opacity: 0, scale: 0.8, y: 10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ delay: 2, duration: 0.3 }}
+      transition={{ delay: 1, duration: 0.3 }}
       whileHover={{ 
         scale: 1.05,
         backgroundColor: 'var(--surface-hover)',
@@ -45,9 +47,9 @@ export function TriggerButton({ onClick }) {
         scale: 0.95,
         transition: { duration: 0.1 }
       }}
+      title="Open Command Palette (Ctrl/⌘ + K)"
     >
-      <Command size={16} />
-      <span>Open Command Palette</span>
+      <Command size={20} />
     </motion.button>
   );
 }

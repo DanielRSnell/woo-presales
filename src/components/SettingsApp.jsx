@@ -600,191 +600,195 @@ export function SettingsApp({ restNonce }) {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'grid', gap: '20px' }}>
+
+            {/* Color Settings */}
+            <div>
               <h4 style={{ margin: '0 0 16px 0', color: '#1d2327', fontSize: '16px', fontWeight: '600' }}>Color Settings</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div>
                   <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
                     Primary Color
-                </label>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input
-                    type="color"
-                    value={settings.design.primary_color}
-                    onChange={(e) => updateSetting('design', 'primary_color', e.target.value)}
-                    style={{ width: '50px', height: '36px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                  />
-                  <input
-                    type="text"
-                    value={settings.design.primary_color}
-                    onChange={(e) => updateSetting('design', 'primary_color', e.target.value)}
-                    style={{
-                      flex: 1,
-                      padding: '8px 12px',
-                      border: '1px solid #8c8f94',
-                      borderRadius: '4px',
-                      fontSize: '14px'
-                    }}
-                  />
+                  </label>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="color"
+                      value={settings.design.primary_color}
+                      onChange={(e) => updateSetting('design', 'primary_color', e.target.value)}
+                      style={{ width: '50px', height: '36px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                    />
+                    <input
+                      type="text"
+                      value={settings.design.primary_color}
+                      onChange={(e) => updateSetting('design', 'primary_color', e.target.value)}
+                      style={{
+                        flex: 1,
+                        padding: '8px 12px',
+                        border: '1px solid #8c8f94',
+                        borderRadius: '4px',
+                        fontSize: '14px'
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
-                  Secondary Color
-                </label>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input
-                    type="color"
-                    value={settings.design.secondary_color}
-                    onChange={(e) => updateSetting('design', 'secondary_color', e.target.value)}
-                    style={{ width: '50px', height: '36px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-                  />
-                  <input
-                    type="text"
-                    value={settings.design.secondary_color}
-                    onChange={(e) => updateSetting('design', 'secondary_color', e.target.value)}
-                    style={{
-                      flex: 1,
-                      padding: '8px 12px',
-                      border: '1px solid #8c8f94',
-                      borderRadius: '4px',
-                      fontSize: '14px'
-                    }}
-                  />
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
+                    Secondary Color
+                  </label>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="color"
+                      value={settings.design.secondary_color}
+                      onChange={(e) => updateSetting('design', 'secondary_color', e.target.value)}
+                      style={{ width: '50px', height: '36px', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                    />
+                    <input
+                      type="text"
+                      value={settings.design.secondary_color}
+                      onChange={(e) => updateSetting('design', 'secondary_color', e.target.value)}
+                      style={{
+                        flex: 1,
+                        padding: '8px 12px',
+                        border: '1px solid #8c8f94',
+                        borderRadius: '4px',
+                        fontSize: '14px'
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div style={{ display: 'grid', gap: '20px' }}>
+            {/* Button Settings */}
+            <div>
               <h4 style={{ margin: '0 0 16px 0', color: '#1d2327', fontSize: '16px', fontWeight: '600' }}>Button Settings</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div>
                   <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
                     Button Style
                   </label>
-                <select
-                  value={settings.design.button_style}
-                  onChange={(e) => updateSetting('design', 'button_style', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #8c8f94',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    background: 'white'
-                  }}
-                >
-                  <option value="rounded">Rounded Corners</option>
-                  <option value="square">Square</option>
-                  <option value="pill">Pill Shape</option>
-                </select>
-              </div>
+                  <select
+                    value={settings.design.button_style}
+                    onChange={(e) => updateSetting('design', 'button_style', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #8c8f94',
+                      borderRadius: '4px',
+                      fontSize: '14px',
+                      background: 'white'
+                    }}
+                  >
+                    <option value="rounded">Rounded Corners</option>
+                    <option value="square">Square</option>
+                    <option value="pill">Pill Shape</option>
+                  </select>
+                </div>
 
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
-                  Button Size
-                </label>
-                <select
-                  value={settings.design.button_size}
-                  onChange={(e) => updateSetting('design', 'button_size', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #8c8f94',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    background: 'white'
-                  }}
-                >
-                  <option value="small">Small</option>
-                  <option value="medium">Medium</option>
-                  <option value="large">Large</option>
-                </select>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
+                    Button Size
+                  </label>
+                  <select
+                    value={settings.design.button_size}
+                    onChange={(e) => updateSetting('design', 'button_size', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #8c8f94',
+                      borderRadius: '4px',
+                      fontSize: '14px',
+                      background: 'white'
+                    }}
+                  >
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
               </div>
             </div>
 
-            </div>
-
-            <div style={{ display: 'grid', gap: '20px' }}>
+            {/* Typography & Layout */}
+            <div>
               <h4 style={{ margin: '0 0 16px 0', color: '#1d2327', fontSize: '16px', fontWeight: '600' }}>Typography & Layout</h4>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div>
                   <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
                     Font Family
                   </label>
-                <select
-                  value={settings.design.font_family}
-                  onChange={(e) => updateSetting('design', 'font_family', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    border: '1px solid #8c8f94',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    background: 'white'
-                  }}
-                >
-                  <option value="system">System Default</option>
-                  <option value="arial">Arial</option>
-                  <option value="helvetica">Helvetica</option>
-                  <option value="georgia">Georgia</option>
-                  <option value="times">Times New Roman</option>
-                </select>
-              </div>
+                  <select
+                    value={settings.design.font_family}
+                    onChange={(e) => updateSetting('design', 'font_family', e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '8px 12px',
+                      border: '1px solid #8c8f94',
+                      borderRadius: '4px',
+                      fontSize: '14px',
+                      background: 'white'
+                    }}
+                  >
+                    <option value="system">System Default</option>
+                    <option value="arial">Arial</option>
+                    <option value="helvetica">Helvetica</option>
+                    <option value="georgia">Georgia</option>
+                    <option value="times">Times New Roman</option>
+                  </select>
+                </div>
 
-              <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
-                  Border Radius
-                </label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <input
-                    type="range"
-                    min="0"
-                    max="25"
-                    value={settings.design.border_radius}
-                    onChange={(e) => updateSetting('design', 'border_radius', parseInt(e.target.value))}
-                    style={{ flex: 1 }}
-                  />
-                  <span style={{ 
-                    fontSize: '14px', 
-                    color: '#646970',
-                    minWidth: '40px',
-                    textAlign: 'right'
-                  }}>
-                    {settings.design.border_radius}px
-                  </span>
+                <div>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
+                    Border Radius
+                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <input
+                      type="range"
+                      min="0"
+                      max="25"
+                      value={settings.design.border_radius}
+                      onChange={(e) => updateSetting('design', 'border_radius', parseInt(e.target.value))}
+                      style={{ flex: 1 }}
+                    />
+                    <span style={{ 
+                      fontSize: '14px', 
+                      color: '#646970',
+                      minWidth: '40px',
+                      textAlign: 'right'
+                    }}>
+                      {settings.design.border_radius}px
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-
-            </div>
-
-            <div style={{ display: 'grid', gap: '20px' }}>
+            
+            {/* Advanced Customization */}
+            <div>
               <h4 style={{ margin: '0 0 16px 0', color: '#1d2327', fontSize: '16px', fontWeight: '600' }}>Advanced Customization</h4>
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', color: '#1d2327' }}>
                   Custom CSS
                 </label>
-              <textarea
-                value={settings.design.custom_css}
-                onChange={(e) => updateSetting('design', 'custom_css', e.target.value)}
-                rows={6}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  border: '1px solid #8c8f94',
-                  borderRadius: '4px',
-                  fontSize: '13px',
-                  fontFamily: 'Monaco, Consolas, monospace',
-                  resize: 'vertical'
-                }}
-                placeholder="/* Add custom CSS here */&#10;.woo-presales-button {&#10;  /* Custom button styles */&#10;}"
-              />
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#646970' }}>
-                Custom CSS will be applied to all presales components
-              </p>
-            </div>
+                <textarea
+                  value={settings.design.custom_css}
+                  onChange={(e) => updateSetting('design', 'custom_css', e.target.value)}
+                  rows={6}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #8c8f94',
+                    borderRadius: '4px',
+                    fontSize: '13px',
+                    fontFamily: 'Monaco, Consolas, monospace',
+                    resize: 'vertical'
+                  }}
+                  placeholder="/* Add custom CSS here */&#10;.woo-presales-button {&#10;  /* Custom button styles */&#10;}"
+                />
+                <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#646970' }}>
+                  Custom CSS will be applied to all presales components
+                </p>
+              </div>
             </div>
           </div>
         </Tabs.Content>

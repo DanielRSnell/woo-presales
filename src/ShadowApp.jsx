@@ -148,17 +148,7 @@ export function ShadowApp(props = {}) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
-  // Auto-open on mount to show it's working (only for admin settings page)
-  useEffect(() => {
-    if (pageType === 'default') {
-      // Only auto-open in admin settings, not on frontend
-      const isAdmin = window.location.pathname.includes('/wp-admin/');
-      if (isAdmin) {
-        const timer = setTimeout(() => setIsOpen(true), 1000);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [pageType]);
+  // Remove auto-open behavior - command palette should start minimized
   
   // Expose modal functions globally for WooCommerce integration
   useEffect(() => {
@@ -248,7 +238,7 @@ export function ShadowApp(props = {}) {
             />
           )}
         </AnimatePresence>
-        {!isOpen && (
+        {!isOpen && window.location.pathname.includes('/wp-admin/') && (
           <TriggerButton onClick={handleOpen} />
         )}
       </>
@@ -277,7 +267,7 @@ export function ShadowApp(props = {}) {
             />
           )}
         </AnimatePresence>
-        {!isOpen && (
+        {!isOpen && window.location.pathname.includes('/wp-admin/') && (
           <TriggerButton onClick={handleOpen} />
         )}
       </>
@@ -312,7 +302,7 @@ export function ShadowApp(props = {}) {
       </AnimatePresence>
 
       {/* Floating trigger button (only show in admin) */}
-      {!isOpen && (
+      {!isOpen && window.location.pathname.includes('/wp-admin/') && (
         <TriggerButton onClick={handleOpen} />
       )}
     </>

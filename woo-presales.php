@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: WooCommerce Cart Share & Quote
+ * Plugin Name: Woo Presales
  * Description: Allow customers to share their cart via URL or convert it to a quote for approval
  * Version: 1.0.0
- * Author: Daniel Snell @Umbral.ai
+ * Author: Texas Metal Works
  * License: GPL v2 or later
  * Text Domain: wc-cart-share-quote
  * Domain Path: /languages
@@ -130,6 +130,9 @@ class WC_Cart_Share_Quote {
         
         // Debug rewrite rules
         add_action('wp', [$this, 'debugQueryVars']);
+        
+        // Force flush rewrite rules on admin_init for debugging
+        add_action('admin_init', [$this, 'debugFlushRewriteRules']);
     }
     
     /**
@@ -556,10 +559,17 @@ class WC_Cart_Share_Quote {
             'top'
         );
         
-        // Quote URL: /quote/{id}
+        // Quote URL: /quote/{id} (numeric ID)
         add_rewrite_rule(
             '^quote/([0-9]+)/?$',
             'index.php?wc_quote_id=$matches[1]',
+            'top'
+        );
+        
+        // Quote URL: /quote/{slug} (post name/slug)
+        add_rewrite_rule(
+            '^quote/([^/]+)/?$',
+            'index.php?wc_quote_slug=$matches[1]',
             'top'
         );
     }
@@ -570,6 +580,7 @@ class WC_Cart_Share_Quote {
     public function addQueryVars($vars) {
         $vars[] = 'wc_shared_cart_hash';
         $vars[] = 'wc_quote_id';
+        $vars[] = 'wc_quote_slug';
         return $vars;
     }
     
@@ -581,6 +592,7 @@ class WC_Cart_Share_Quote {
         
         $shared_cart_hash = get_query_var('wc_shared_cart_hash');
         $quote_id = get_query_var('wc_quote_id');
+        $quote_slug = get_query_var('wc_quote_slug');
         
         if ($shared_cart_hash) {
             $this->renderSharedCartPage($shared_cart_hash);
@@ -589,6 +601,11 @@ class WC_Cart_Share_Quote {
         
         if ($quote_id) {
             $this->renderQuotePage($quote_id);
+            exit;
+        }
+        
+        if ($quote_slug) {
+            $this->renderQuotePageBySlug($quote_slug);
             exit;
         }
     }
@@ -651,6 +668,39 @@ class WC_Cart_Share_Quote {
         $this->loadPageTemplate('quote', [
             'quote_id' => $quote_id,
             'title' => sprintf(__('Quote #%d', 'wc-cart-share-quote'), $quote_id)
+        ]);
+    }
+    
+    /**
+     * Render quote page by slug
+     */
+    private function renderQuotePageBySlug($slug) {
+        // Find quote post by slug
+        $posts = get_posts([
+            'post_type' => 'cart_quote',
+            'name' => $slug,
+            'posts_per_page' => 1,
+            'post_status' => 'publish'
+        ]);
+        
+        if (empty($posts)) {
+            wp_die(__('Quote not found.', 'wc-cart-share-quote'), __('Not Found', 'wc-cart-share-quote'), ['response' => 404]);
+        }
+        
+        $post = $posts[0];
+        $quote_id = $post->ID;
+        $quote_status = get_post_meta($quote_id, '_quote_status', true);
+        $expires_at = get_post_meta($quote_id, '_expires_at', true);
+        
+        // Check if expired
+        if ($expires_at && strtotime($expires_at) < time() && $quote_status !== 'expired') {
+            update_post_meta($quote_id, '_quote_status', 'expired');
+        }
+        
+        // Load page template
+        $this->loadPageTemplate('quote', [
+            'quote_id' => $quote_id,
+            'title' => $post->post_title ?: sprintf(__('Quote #%d', 'wc-cart-share-quote'), $quote_id)
         ]);
     }
     
@@ -1514,6 +1564,18 @@ class WC_Cart_Share_Quote {
         $this->registerPostTypes();
         flush_rewrite_rules(true);
         error_log('WC Cart Share Quote: Rewrite rules flushed');
+    }
+    
+    /**
+     * Debug flush rewrite rules on admin
+     */
+    public function debugFlushRewriteRules() {
+        // Only flush once per session to avoid performance issues
+        if (!get_transient('wc_cart_share_quote_debug_flush')) {
+            $this->forceFlushRewriteRules();
+            set_transient('wc_cart_share_quote_debug_flush', true, 300); // 5 minutes
+            error_log('WC Cart Share Quote: Debug rewrite rules flushed');
+        }
     }
     
     /**
